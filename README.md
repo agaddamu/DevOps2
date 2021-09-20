@@ -112,5 +112,7 @@ Step 6. Notes/Additional instructions:
              ![alt text](images/ec2.png).
  4. Check the security group created
  5. Application can be accessed by ec2 public ip.
-             ![alt text](images/Hello.png).              
+             ![alt text](images/Hello.png).    
+ 6. final pipeline will look like this 
+             ![alt text](images/FinalPipeline.png).                        
     
