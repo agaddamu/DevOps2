@@ -40,8 +40,8 @@ pipeline {
       steps {
         sh """
               source .venv/bin/activate
-              ls dist/Labs/usecases/usecase-1/
-              aws s3 cp dist/Labs/usecases/usecase-1/my_application-*.whl ${S3_PATH}
+              ls dist/
+              aws s3 cp dist/my_application-*.whl ${S3_PATH}
               source deactivate
            """
       }
