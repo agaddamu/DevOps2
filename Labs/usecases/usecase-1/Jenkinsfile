@@ -35,11 +35,13 @@ pipeline {
       }
     }
     // Stage to upload binary to s3
+    // Deactivating python virtual environment
     stage('uploadBinaryToS3') {
       steps {
         sh """
               source .venv/bin/activate
               aws s3 cp Labs/usecase/usecase-1/dist/my_application-*.whl ${S3_PATH}
+              source deactivate
            """
       }
     }
