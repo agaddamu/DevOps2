@@ -1,0 +1,35 @@
+pipeline {
+  // agent any
+  agent { docker { image 'python:3.7.2' } }
+  stages {
+    stage('build') {
+      steps {
+        sh 'virtualenv .venv'
+      }
+    }
+    stage('test') {
+      steps {
+        sh """
+             source .venv/bin/activate
+           """
+      }
+      post {
+        always {
+          junit 'test-reports/*.xml'
+        }
+      }
+    }
+    stage('deploy') {
+      steps {
+        sh """
+            aws s3 cp dist/my_application-*.whl s3://temp/
+           """
+      }
+    }
+  }
+  post {
+        always {
+            cleanWs()
+        }
+    }
+}

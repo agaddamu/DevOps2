@@ -20,7 +20,13 @@ Step 1. Resource creation
             - AmazonS3FullAccess - (Uploading binary to s3)
             - AmazonSSMFullAccess - (Installing SSM on other Ec2)
             
- 4. Attach a public ip to the Ec2 instance.           
+ 4. Attach a public ip to the Ec2 instance.
+ 
+ 5. Create and Security group with all inbound and outbound access and attach this to Ec2.
+      - ALL TCP traffic from Anywhere
+      - Recommendation - Use more restricted inbound access.
+ 
+            
             
         
 ---------------------------------------
@@ -55,7 +61,7 @@ Step 2. Command to Run:
 ---------------------------------------
 
 Step 3. Common error 
-1. daemonize
+1. daemonize error
      ```
     Error: Package: jenkins-2.303.1-1.1.noarch (jenkins)-Requires: daemonize
     
@@ -65,17 +71,29 @@ Step 3. Common error
     # sudo yum install daemonize -y  
      ```
 
+2. JAVA Error 
+    ```java
+     sudo amazon-linux-extras install epel -y 
+     sudo yum install jenkins java-1.8.0-openjdk-devel -y
+    ```   
+
 
 ---------------------------------------
 
 Additional comments
-1. Initial admin password of jenkins is available at 
+1. Edit port configuration to run jenkins on 8080.
+    ```angular2
+    vim /etc/sysconfig/jenkins
+    ```
+   Change line  "JENKINS_PORT="8080"
+     
+2. Initial admin password of jenkins is available at 
     ```
     /var/lib/jenkins/secrets/initialAdminPassword
     ```
-2. Installed all the suggested plugins.  
+3. Installed all the suggested plugins.  
  
-3. Plugin which must be installed, Go the manage jenkins from jenkins Dashboard
+4. Plugin which must be installed, Go the manage jenkins from jenkins Dashboard
       - Manage jenkins 
           ![alt text](../images/Manage.png)
       - Manage plugin
