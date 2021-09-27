@@ -52,7 +52,7 @@ pipeline {
       steps {
         sh """
               terraform -v
-              cd Labs/usecases/usecase-1terraform
+              cd Labs/usecases/usecase-1/terraform
               terraform init
               terraform plan -out plan.out
               terraform apply -auto-approve plan.out
