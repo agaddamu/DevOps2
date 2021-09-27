@@ -50,17 +50,17 @@ Step 4. Changes to Application files
      1. provider.tf 
         - [line#- 2]: - AWS region for create resources.
      2. iac_usecase_1.tf 
-        - [line#- 4]: - Specify the AWS VPN id.
-        - [line#- 11]: - CIDR IP block from where we want to access the application UI.
-        - [line#- 39]: - AMI Name for creating ec2 on which application will be deployed. Please choose the latest AMI that will have latest aws tools installed.
+        - [line#- 3]: - Specify the AWS VPN id.
+        - [line#- 8]: - CIDR IP block from where we want to access the application UI.
+        - [line#- 20]: - AMI Name for creating ec2 on which application will be deployed. Please choose the latest AMI that will have latest aws tools installed.
                          AMI should be available in the region provided in 'provider.tf'
-        - [line#- 40]: - IAM application role which must be attached to the Ec2 on which application is deployed.
-        - [line#- 42]: - Public subnet id.
-        - [line#- 50]: - S3 path to download binary package.
+        - [line#- 26]: - IAM application role which must be attached to the Ec2 on which application is deployed. Created in prerequisite step.
+        - [line#- 14]: - Public subnet id.
+        - [line#- 37]: - S3 path to download binary package.
      3. Jenkinsfile 
-        - [line#- 32]: - S3 path to upload the binary package.
-        - [line#- 45]: - S3 path for Terraform create plan.
-        - [line#- 46]: - S3 path for Terraform destroy plan.
+        - [line#- 2]: - S3 Bucket
+        - [line#- 3]: -  S3 path to upload the binary package.
+        - [line#- 4]: - S3 path for Terraform create destroy plan.
 
 
 ---------------------------------------

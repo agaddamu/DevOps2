@@ -1,5 +1,7 @@
 // Defining constant global variables
-def S3_PATH = "s3://test-ankur-1/users/temp/"
+def S3_BUCKET = "s3://test-ankur-1"
+def S3_BINARY_PATH = "users/temp/"
+def S3_TERRAFORM_PATH = "users/terraform/"
 
 // Pipeline definition
 pipeline {
@@ -41,7 +43,7 @@ pipeline {
         sh """
               source .venv/bin/activate
               ls dist/
-              aws s3 cp dist/my_application-*.whl ${S3_PATH}
+              aws s3 cp dist/my_application-*.whl ${S3_BUCKET}/${S3_BINARY_PATH}
               source deactivate
            """
       }
@@ -57,8 +59,8 @@ pipeline {
               terraform plan -out plan.out
               terraform apply -auto-approve plan.out
               terraform plan -destroy -out planfile
-              aws s3 cp plan.out ${S3_PATH}/terraform
-              aws s3 cp planfile ${S3_PATH}/terraform
+              aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}
+              aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}
            """
       }
     }

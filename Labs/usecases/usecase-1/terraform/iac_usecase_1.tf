@@ -1,17 +1,57 @@
+variable "VPC" {
+  type = string
+  default = "vpc-9799dfdfccn"
+  description = "VPC in which we need to create resources"
+}
+variable "CIDR" {
+  type    = list(string)
+  default = ["91.92.93.94/32"]
+  description = "CIDR list for allowing traffic from SG"
+}
+
+variable "SUBNET" {
+  type = string
+  default = "subnet-0d-public-e"
+  description = "Public subnet for deploying the application"
+}
+
+variable "AMI" {
+  type = string
+  default = "ami-0c2d06d50ce30b442"
+  description = "AMI image id for EC2 instance to bake the EC2"
+}
+
+variable "EC2_ROLE" {
+  type = string
+  default = "EC2_DefaultRole"
+  description = "Role attached to ec2 Group"
+}
+
+variable "EC2_TYPE" {
+  type = string
+  default = "t2.nano"
+}
+
+variable "S3_PATH" {
+  type = string
+  default = "s3://test-ankur/users/temp/"
+  description = "S3 Path of an deployed image"
+}
+
 resource "aws_security_group" "basic_security" {
   name = "sg_flask"
   description = "Web Security Group for HTTP"
-  vpc_id = "vpc-0cb34n5fd"
+  vpc_id =  var.VPC
   ingress = [
     {
       description = "Allow HTTP Traffic access"
       from_port = 80
       to_port = 80
       protocol = "tcp"
-      cidr_blocks = ["90.91.92.93/32"]
+      cidr_blocks = var.CIDR
       security_groups = []
       ipv6_cidr_blocks = []
-      prefix_list_ids =[]
+      prefix_list_ids = []
       self = true
     }
   ]
@@ -22,32 +62,35 @@ resource "aws_security_group" "basic_security" {
       from_port = 0
       to_port = 0
       protocol = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-      ipv6_cidr_blocks = ["::/0"]
+      cidr_blocks = [
+        "0.0.0.0/0"]
+      ipv6_cidr_blocks = [
+        "::/0"]
       security_groups = []
-      prefix_list_ids =[]
+      prefix_list_ids = []
       self = true
     }
   ]
 
-   tags = {
+  tags = {
     Name = "rm-application"
   }
 }
 
 resource "aws_instance" "app_server" {
-  ami = "ami-0c2d06d50ce30b442"
-  iam_instance_profile = "EC2_DefaultRole"
-  instance_type = "t2.nano"
-  subnet_id = "subnet-public_subnet"
+  ami = var.AMI
+  iam_instance_profile = var.EC2_ROLE
+  instance_type = var.EC2_TYPE
+  subnet_id = var.SUBNET
   associate_public_ip_address = true
-  vpc_security_group_ids = [aws_security_group.basic_security.id]
-    user_data = <<EOF
+  vpc_security_group_ids = [
+    aws_security_group.basic_security.id]
+  user_data = <<EOF
                   #!/bin/bash
                   echo "Starting user_data"
                   sudo su -
                   sudo yum -y install pip
-                  aws s3 cp  s3://test-ankur-1/users/temp/ . --recursive
+                  aws s3 cp  "${var.S3_PATH}" . --recursive
                   mkdir myproject
                   pip install *.whl
                   pip install *.whl -t /root/myproject
