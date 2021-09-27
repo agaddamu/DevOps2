@@ -12,7 +12,7 @@ pipeline {
         // Running python setup tool to create wheel distribution file
         sh """
             source .venv/bin/activate
-            pip install -r Labs/usecase/usecase-1/requirements.txt
+            pip install -r Labs/usecases/usecase-1/requirements.txt
             pip install wheel
             python setup.py bdist_wheel
            """
@@ -24,7 +24,7 @@ pipeline {
         // Running the test suits present in code
         sh """
              source .venv/bin/activate
-             python Labs/usecase/usecase-1/my_application/test.py
+             python Labs/usecases/usecase-1/my_application/test.py
            """
       }
       // Generating test reports
@@ -40,7 +40,7 @@ pipeline {
       steps {
         sh """
               source .venv/bin/activate
-              aws s3 cp Labs/usecase/usecase-1/dist/my_application-*.whl ${S3_PATH}
+              aws s3 cp Labs/usecases/usecase-1/dist/my_application-*.whl ${S3_PATH}
               source deactivate
            """
       }
@@ -51,7 +51,7 @@ pipeline {
       steps {
         sh """
               terraform -v
-              cd Labs/usecase/usecase-1/terraform
+              cd Labs/usecases/usecase-1terraform
               terraform init
               terraform plan -out plan.out
               terraform apply -auto-approve plan.out
