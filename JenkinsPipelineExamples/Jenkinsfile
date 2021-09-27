@@ -1,35 +1,35 @@
+// Define variable
+def S3_PATH = "s3://temp/"
+
+// Declarative pipeline
 pipeline {
   // agent any
+  // This will install the python docker with version 3.7 to run build
   agent { docker { image 'python:3.7.2' } }
   stages {
-    stage('build') {
+    stage('build') {  // Build stage
       steps {
-        sh 'virtualenv .venv'
+        sh 'virtualenv .venv' // Creating the virtual python environment
       }
     }
-    stage('test') {
+    stage('test') { // Test stage
       steps {
         sh """
              source .venv/bin/activate
-           """
+           """ // Activation of python virtual environment
       }
       post {
         always {
-          junit 'test-reports/*.xml'
+          junit 'test-reports/*.xml' // Generating the test report
         }
       }
     }
-    stage('deploy') {
+    stage('deploy') { // Deploy stage
       steps {
         sh """
-            aws s3 cp dist/my_application-*.whl s3://temp/
-           """
+            aws s3 cp dist/my_application-*.whl ${S3_PATH} /
+           """ // Uploading binary to s3
       }
     }
   }
-  post {
-        always {
-            cleanWs()
-        }
-    }
 }
