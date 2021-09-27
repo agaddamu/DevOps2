@@ -1,54 +1,66 @@
+// Defining constant global variables
+def S3_PATH = "s3://test-ankur-1/users/temp/"
+
+// Pipeline definition
 pipeline {
   agent any
   stages {
-  //
+  // build stage
     stage('build') {
       steps {
-        sh 'virtualenv .venv'
+        sh 'virtualenv .venv' // Creating the python virtual environment
+        // Running python setup tool to create wheel distribution file
         sh """
             source .venv/bin/activate
-            pip install -r requirements.txt
+            pip install -r Labs/usecase/usecase-1/requirements.txt
             pip install wheel
             python setup.py bdist_wheel
            """
       }
     }
+  // test stage
     stage('test') {
       steps {
+        // Running the test suits present in code
         sh """
              source .venv/bin/activate
-             python my_application/test.py
+             python Labs/usecase/usecase-1/my_application/test.py
            """
       }
+      // Generating test reports
       post {
         always {
           junit 'test-reports/*.xml'
         }
       }
     }
+    // Stage to upload binary to s3
     stage('uploadBinaryToS3') {
       steps {
         sh """
               source .venv/bin/activate
-              aws s3 cp dist/my_application-*.whl s3://test-ankur-1/users/temp/
+              aws s3 cp Labs/usecase/usecase-1/dist/my_application-*.whl ${S3_PATH}
            """
       }
     }
+    //Deploy stage
     stage('deploy') {
+       // Running terraform scripts and uploading plan file to s3
       steps {
         sh """
               terraform -v
-              cd terraform
+              cd Labs/usecase/usecase-1/terraform
               terraform init
               terraform plan -out plan.out
               terraform apply -auto-approve plan.out
               terraform plan -destroy -out planfile
-              aws s3 cp plan.out s3://test-ankur-1/users/temp/
-              aws s3 cp planfile s3://test-ankur-1/users/temp/
+              aws s3 cp plan.out ${S3_PATH}/terraform
+              aws s3 cp planfile ${S3_PATH}/terraform
            """
       }
     }
   }
+  // Stage to clean up workspace
   post {
         always {
             cleanWs()
