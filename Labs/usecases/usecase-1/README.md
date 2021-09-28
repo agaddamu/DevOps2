@@ -26,7 +26,7 @@ Step 1. Resource creation
 Step 2. Pre-requisites:
      
 1. Configure jenkins and Configure "webhook with Githhub" repository(Discussed in earlier slides).
-2. Check for all the files in github folder - https://github.com/Rising-Minerva/DevOps
+2. Check for all the files in github folder - https://github.com/Rising-Minerva/DevOps/tree/main/Labs/usecases/usecase-1/
 3. Please make changes in the file as directed in ``step-4``
 
 ---------------------------------------
@@ -59,7 +59,7 @@ Step 4. Changes to Application files
         - [line#- 37]: - S3 path to download binary package.
      3. Jenkinsfile 
         - [line#- 2]: - S3 Bucket
-        - [line#- 3]: -  S3 path to upload the binary package.
+        - [line#- 3]: - S3 path to upload the binary package.
         - [line#- 4]: - S3 path for Terraform create destroy plan.
 
 
@@ -87,7 +87,7 @@ Step 5. Step By Step Execution
             - Branches to build - Leave blank
             - Repository browser - Auto
              ![alt text](../../../images/SCM.png)
- 4. In the script path - Jenkinsfile 
+ 4. In the script path - Labs/usecases/usecase-1/Jenkinsfile 
              ![alt text](../../../images/JenkinsFile.png)
  5. For additional behaviour plugins must be installed like "Github, Wipe repository". Detailed information is present in jenkis configuration slide.
  6. Commit the code in the github to trigger the pipeline. You can check the hook delivery matching with commitId.

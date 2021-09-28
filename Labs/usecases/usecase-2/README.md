@@ -26,7 +26,7 @@ Step 1. Resource creation
 Step 2. Pre-requisites:
      
 1. Configure jenkins and Configure "webhook with Githhub" repository(Discussed in earlier slides).
-2. Check for all the files in github folder - https://github.com/Rising-Minerva/DevOps
+2. Check for all the files in github folder - https://github.com/Rising-Minerva/DevOps/tree/main/Labs/usecases/usecase-2/
 3. Please make changes in the file as directed in ``step-4``
 
 ---------------------------------------
@@ -38,8 +38,8 @@ Step 3. Review code
  3. Jenkinsfile - Jenkins pipeline file.
  4. requirements.txt - Package dependency required for the application to run.
  5. setup.py - Build setup file for creating python wheel package for distribution. For details description -https://flask.palletsprojects.com/en/2.0.x/patterns/distribute/#installing-developing
- 6. terraform/iac_usecase_1.tf - Terraform file for creating application infrastructure.
- 7. provider.tf - Terraform cloud provider file to specify the AWS region. 
+ 6. terraform/blue/iac_usecase_2.tf - Terraform file for creating application infrastructure for blue cluster.
+ 6. terraform/green/iac_usecase_2.tf - Terraform file for creating application infrastructure for green cluster.
  
 
 ---------------------------------------
@@ -47,20 +47,32 @@ Step 3. Review code
 Step 4. Changes to Application files
 
 1. Changes in the code files
-     1. provider.tf 
-        - [line#- 2]: - AWS region for create resources.
-     2. iac_usecase_1.tf 
-        - [line#- 3]: - Specify the AWS VPN id.
-        - [line#- 8]: - CIDR IP block from where we want to access the application UI.
-        - [line#- 20]: - AMI Name for creating ec2 on which application will be deployed. Please choose the latest AMI that will have latest aws tools installed.
+     1. iac_usecase_1.tf 
+        - [Line#- 6]: - Specify the AWS VPN id.
+        - [Line#- 11]: - CIDR IP block from where we want to access the application UI.
+        - [Line#- 17]: - Public subnet id.
+        - [Line#- 23]: - AMI Name for creating ec2 on which application will be deployed. Please choose the latest AMI that will have latest aws tools installed.
                          AMI should be available in the region provided in 'provider.tf'
-        - [line#- 26]: - IAM application role which must be attached to the Ec2 on which application is deployed. Created in prerequisite step.
-        - [line#- 14]: - Public subnet id.
-        - [line#- 37]: - S3 path to download binary package.
-     3. Jenkinsfile 
+        - [Line#- 29]: - IAM application role which must be attached to the Ec2 on which application is deployed. Created in prerequisite step.
+        - [Line#- 35]: - Type of Ec2 Instance.
+        - [Line#- 40]: - S3 path to download binary package.
+        - [Line#- 46]: - Version to deploy match with the version present in setup.py.
+     1. iac_usecase_2.tf 
+        - [Line#- 6]: - Specify the AWS VPN id.
+        - [Line#- 11]: - CIDR IP block from where we want to access the application UI.
+        - [Line#- 17]: - Public subnet id.
+        - [Line#- 23]: - AMI Name for creating ec2 on which application will be deployed. Please choose the latest AMI that will have latest aws tools installed.
+                         AMI should be available in the region provided in 'provider.tf'
+        - [Line#- 29]: - IAM application role which must be attached to the Ec2 on which application is deployed. Created in prerequisite step.
+        - [Line#- 35]: - Type of Ec2 Instance.
+        - [Line#- 40]: - S3 path to download binary package.
+        - [Line#- 46]: - Version to deploy match with the version present in setup.py.
+     2. Jenkinsfile 
         - [line#- 2]: - S3 Bucket
-        - [line#- 3]: -  S3 path to upload the binary package.
+        - [line#- 3]: - S3 path to upload the binary package.
         - [line#- 4]: - S3 path for Terraform create destroy plan.
+     3. Setup.py
+        - [Line# -5]: - Version of the application.   
 
 
 ---------------------------------------
@@ -87,19 +99,18 @@ Step 5. Step By Step Execution
             - Branches to build - Leave blank
             - Repository browser - Auto
              ![alt text](../../../images/SCM.png)
- 4. In the script path - Jenkinsfile 
-             ![alt text](../../../images/JenkinsFile.png)
+ 4. In the script path - Labs/usecases/usecase-2/Jenkinsfile 
+             ![alt text](../../../images/JenkinsFile2.png)
  5. For additional behaviour plugins must be installed like "Github, Wipe repository". Detailed information is present in jenkis configuration slide.
- 6. Commit the code in the github to trigger the pipeline. You can check the hook delivery matching with commitId.
-              ![alt text](../../../images/HookRecentDelivery.png)   
- 7. Jenkins pipeline must be triggered.
-              ![alt text](../../../images/PipelineStatus.png) 
+ 5. Jenkins pipeline can be triggered from 'Build with parameters''.
+              ![alt text](../../../images/NewBuild.png) 
  8. Pipeline logs can be seen by hovering each steps.
-              ![alt text](../../../images/PipelineLogs.png)
+              ![alt text](../../../images/NewBuild2.png)
+ 9. One stage will be skipped [either deployment on green cluster or deployment on blue cluster]             
+               ![alt text](../../../images/NewBuild2.png) 
  9. Test result trends is also available for each build.
               ![alt text](../../../images/TestResultTrend.png)              
- 10. Github Hook Logs can also been seen from dashboard.
-             ![alt text](../../../images/HookLog.png)              
+           
  
 
 ---------------------------------------
@@ -114,5 +125,11 @@ Step 6. Notes/Additional instructions:
  5. Application can be accessed by ec2 public ip.
              ![alt text](../../../images/Hello.png).    
  6. final pipeline will look like this 
-             ![alt text](../../../images/FinalPipeline.png).                        
-    
+             ![alt text](../../../images/FinalPipeline.png). 
+ 7. We can destroy old cluster by terraform destroy command when new cluster is created
+       - Destroy plan file is uploaded in s3 from jenkins steps 
+       - Line# 88, 89, 71, 72
+                
+        aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/<version>/planfile .
+        terraform apply -auto-approve planfile      
+

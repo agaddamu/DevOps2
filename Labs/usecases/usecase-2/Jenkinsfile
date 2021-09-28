@@ -1,6 +1,6 @@
 // Defining constant global variables
 def S3_BUCKET = "s3://test-rishabh"
-def S3_BINARY_PATH = "users/temp/"
+def S3_BINARY_PATH = "users/temp"
 def S3_TERRAFORM_PATH = "users/terraform"
 
 // Pipeline definition
@@ -51,7 +51,7 @@ pipeline {
         sh """
               source .venv/bin/activate
               ls dist/
-              aws s3 cp dist/my_application-*.whl ${S3_BUCKET}/${S3_BINARY_PATH}
+              aws s3 cp dist/my_application-*.whl ${S3_BUCKET}/${S3_BINARY_PATH}/${params.VERSION}/
               deactivate
            """
       }
@@ -65,14 +65,11 @@ pipeline {
               terraform -v
               cd Labs/usecases/usecase-2/terraform/blue/
               terraform init
-              #aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile . --quiet
-              #terraform apply -auto-approve planfile 2>/dev/null
-              rm -rf planfile
               terraform plan -out plan.out -var="RELEASE_VERSION=${params.VERSION}"
               terraform apply -auto-approve plan.out
               terraform plan -destroy -out planfile -var="RELEASE_VERSION=${params.VERSION}"
-              aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/
-              aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/
+              aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/${params.VERSION}
+              aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/${params.VERSION}
            """
       }
     } // End stage
@@ -85,14 +82,11 @@ pipeline {
               terraform -v
               cd Labs/usecases/usecase-2/terraform/green/
               terraform init
-              #aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile . --quiet
-              #terraform apply -auto-approve planfile 2>/dev/null
-              rm -rf planfile
               terraform plan -out plan.out -var="RELEASE_VERSION=${params.VERSION}"
               terraform apply -auto-approve plan.out
               terraform plan -destroy -out planfile -var="RELEASE_VERSION=${params.VERSION}"
-              aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/
-              aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/
+              aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/${params.VERSION}/
+              aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/${params.VERSION}/
            """
       }
     }

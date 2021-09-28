@@ -37,13 +37,13 @@ variable "EC2_TYPE" {
 
 variable "S3_PATH" {
   type = string
-  default = "1.0.0"
+  default = "s3://test-ankur/users/temp"
   description = "Version to be released"
 }
 
 variable "RELEASE_VERSION" {
   type = string
-  default = "s3://test-ankur/users/temp/"
+  default = "1.0.0"
   description = "S3 Path of an deployed image"
 }
 
@@ -99,7 +99,7 @@ resource "aws_instance" "app_server_2" {
                   echo "Starting user_data"
                   sudo su -
                   sudo yum -y install pip
-                  aws s3 cp  "${var.S3_PATH}/my_application-${var.RELEASE_VERSION}*" . --recursive
+                  aws s3 cp  "${var.S3_PATH}/${var.RELEASE_VERSION}/" . --recursive
                   mkdir myproject
                   pip install *.whl
                   pip install *.whl -t /root/myproject
