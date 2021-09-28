@@ -69,7 +69,7 @@ pipeline {
               #terraform apply -auto-approve planfile 2>/dev/null
               rm -rf planfile
               terraform plan -out plan.out -var="RELEASE_VERSION=${VERSION}"
-              terraform apply -auto-approve plan.out -var="RELEASE_VERSION=${VERSION}"
+              terraform apply -auto-approve plan.out
               terraform plan -destroy -out planfile -var="RELEASE_VERSION=${VERSION}"
               aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/
               aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/
@@ -90,7 +90,7 @@ pipeline {
               #terraform apply -auto-approve planfile 2>/dev/null
               rm -rf planfile
               terraform plan -out plan.out -var="RELEASE_VERSION=${VERSION}"
-              terraform apply -auto-approve plan.out -var="RELEASE_VERSION=${VERSION}"
+              terraform apply -auto-approve plan.out
               terraform plan -destroy -out planfile -var="RELEASE_VERSION=${VERSION}"
               aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/
               aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/
