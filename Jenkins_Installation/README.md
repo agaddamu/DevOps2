@@ -25,13 +25,10 @@ Step 1. Resource creation
  5. Create and Security group with all inbound and outbound access and attach this to Ec2.
       - ALL TCP traffic from Anywhere
       - Recommendation - Use more restricted inbound access.
- 
-            
-            
-        
+ 6. Create stack using CloudFormation: RisingMinerva-Jenkins-EC2-CFT.yml
 ---------------------------------------
 
-Step 2. Command to Run:
+Step 2. Below are the commands to be executed to manually install and configure Jenkins
 
 1. Connect to the EC2 instance via SSH or via Session manager.
 2. Update the yum package management tool.
