@@ -11,7 +11,7 @@ Step 1. Resource creation
     1. For simplicity and easy access of UI's please select **public subnet**. 
     2. VPC and Subnet must be configured, before running Jenkins pipeline, Create it if not already present.
  
- 3. Create a EC2 Role - RisingMinervaEC2JenkinsRole
+ 3. Create a EC2 Role - **RisingMinervaEC2JenkinsRole**
        - Instance type - Any (t2.nano)
        - IAM Role permission 
             - AmazonEC2FullAccess - (For creating Ec2 instance via terraform for our application to deploy)
