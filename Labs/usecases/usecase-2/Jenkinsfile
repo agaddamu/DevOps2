@@ -59,7 +59,7 @@ pipeline {
     //Deploy Blue stage
     stage('deploy-blue') {
        // Running terraform scripts and uploading plan file to s3
-      when { expression {  ${params.Deploy_ENV}  == 'BLUE' }}
+      when { expression {  params.Deploy_ENV  == 'BLUE' }}
       steps {
         sh """
               terraform -v
@@ -80,7 +80,7 @@ pipeline {
     //Deploy Green stage
     stage('deploy-green') {
        // Running terraform scripts and uploading plan file to s3
-      when { expression {  ${params.Deploy_ENV} == 'GREEN' }}
+      when { expression {  params.Deploy_ENV == 'GREEN' }}
       steps {
         sh """
               terraform -v
