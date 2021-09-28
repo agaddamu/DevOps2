@@ -2,7 +2,7 @@
 # WebHook
 ---------------------------------------
  1. Prerequisite
-    - Create a github repo on which you want to create a webhook. Or any exiting repository will be sufficient.
+    - Create a github repo on which you want to create a webhook
     - Jenkins must be installed and configured
     - Jenkins UI is accessible.
     - Github repository admin permission.

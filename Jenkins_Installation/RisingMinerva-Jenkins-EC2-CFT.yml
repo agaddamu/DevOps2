@@ -1,0 +1,118 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: A sample YAML template for RISING MINERVA class
+Parameters:
+  RisingMinervaKeyName: 
+    Description: Key Name for the EC2 instance
+    Type: AWS::EC2::KeyPair::KeyName
+  Environment:
+    Type: 'String'
+    Description: Identifies to which enviornment the funciton belongs
+    Default: 'dev'
+    AllowedValues:
+    - 'dev'
+    - 'qa'
+    - 'prod'
+  IAMRole:
+    Type: 'String'
+    Description: IAM role to be attached to the instances
+    Default: RisingMinervaEC2JenkinsRole 
+  SubnetId:
+    Type: String
+    Description: Choose one subnet id in your VPC 
+    Default: Something that looks like this - subnet-8c41e3c1
+Mappings:
+    InstanceTypes:
+        us-east-1:
+          dev: t2.micro
+          qa: t2.small
+          prod: t2.xlarge
+        us-west-2:
+          dev: t2.micro
+          qa: t2.small
+          prod: t2.xlarge
+    AMIs:
+        us-east-1:
+          dev: ami-00dc79254d0461090
+          qa: ami-00dc79254d0461090
+          prod: ami-00dc79254d0461090
+        us-west-2:
+          dev: Use a WEST AMI
+          qa: Use a WEST AMI
+          prod: Use a WEST AMI         
+Resources:
+  RisingMinervaInstanceProfile:
+   Type: AWS::IAM::InstanceProfile
+   Properties:
+     Roles:
+     - Ref: IAMRole
+  RisingMinervaJenkinsServer: #Jenkins server EC2
+    Type: "AWS::EC2::Instance"
+    Properties:
+      InstanceType: 
+                Fn::FindInMap:
+                  - 'InstanceTypes'
+                  - Ref: 'AWS::Region'
+                  - Ref: 'Environment'
+      ImageId: 
+                Fn::FindInMap:
+                  - 'AMIs'
+                  - Ref: 'AWS::Region'
+                  - Ref: 'Environment'
+      KeyName: !Ref RisingMinervaKeyName
+      SubnetId: !Ref SubnetId   
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash -xe
+          sudo yum update –y
+          sudo amazon-linux-extras install epel -y 
+          sudo yum install jenkins java-1.8.0-openjdk-devel -y
+          sudo yum install epel-release -y 
+          sudo yum-config-manager --enable epel
+          sudo yum install daemonize -y  
+          sudo wget -O  /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo 
+          sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+          sudo yum install jenkins -y 
+          sudo service jenkins start
+          sudo systemctl status jenkins
+      Tags:
+         - Key: "EC2Name"
+           Value: !Join ["_", [Rising, Minerva, Jenkins, Server, !Ref "AWS::Region", !Ref Environment]]
+         - Key: "RegionName"
+           Value: !Ref AWS::Region
+      SecurityGroupIds:
+         - !GetAtt RisingMinervaSSHSecuirtyGroup.GroupId #AWS CFT will manage the dependency and create RisingMinervaSSHSecuirtyGroup first
+         - !GetAtt RisingMinervaJenkinsSecuirtyGroup.GroupId
+      IamInstanceProfile: !Ref RisingMinervaInstanceProfile
+  RisingMinervaSSHSecuirtyGroup:
+   Type: 'AWS::EC2::SecurityGroup'
+   Properties:
+      GroupDescription: Enables SSH
+      SecurityGroupIngress:
+         - IpProtocol: tcp
+           CidrIp: 0.0.0.0/0
+           FromPort: 22
+           ToPort: 22
+           
+  RisingMinervaJenkinsSecuirtyGroup:
+   Type: 'AWS::EC2::SecurityGroup'
+   Properties:
+      GroupDescription: Enables Jenkins server to run
+      SecurityGroupIngress:
+         - IpProtocol: tcp
+           CidrIp: 0.0.0.0/0
+           FromPort: 8080
+           ToPort: 8080
+Outputs:
+  SecurityGroupId:
+    Description: Security group created
+    Value: !Ref RisingMinervaSSHSecuirtyGroup
+  JenkinsURL:
+    Description: Jenkins URL
+    Value:
+      Fn::Join:
+      - ''
+      - - http://
+        - Fn::GetAtt:
+          - RisingMinervaJenkinsServer
+          - PublicDnsName
+        - ":8080"

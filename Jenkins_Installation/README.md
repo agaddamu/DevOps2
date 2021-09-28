@@ -1,7 +1,6 @@
 # DevOps
 # Jenkins Setup
 ---------------------------------------
- 
 
 Step 1. Resource creation
     
@@ -11,7 +10,7 @@ Step 1. Resource creation
     1. For simplicity and easy access of UI's please select **public subnet**. 
     2. VPC and Subnet must be configured, before running Jenkins pipeline, Create it if not already present.
  
- 3. Create a EC2 
+ 3. Create a EC2 Role - **RisingMinervaEC2JenkinsRole**
        - Instance type - Any (t2.nano)
        - IAM Role permission 
             - AmazonEC2FullAccess - (For creating Ec2 instance via terraform for our application to deploy)
@@ -25,13 +24,10 @@ Step 1. Resource creation
  5. Create and Security group with all inbound and outbound access and attach this to Ec2.
       - ALL TCP traffic from Anywhere
       - Recommendation - Use more restricted inbound access.
- 
-            
-            
-        
+ 6. Create stack using CloudFormation: [**RisingMinerva-Jenkins-EC2-CFT.yml**](https://github.com/Rising-Minerva/DevOps/blob/main/Jenkins_Installation/RisingMinerva-Jenkins-EC2-CFT.yml) 
 ---------------------------------------
 
-Step 2. Command to Run:
+Step 2. Below are the commands to manually install and configure Jenkins
 
 1. Connect to the EC2 instance via SSH or via Session manager.
 2. Update the yum package management tool.
@@ -76,8 +72,6 @@ Step 3. Common error
      sudo amazon-linux-extras install epel -y 
      sudo yum install jenkins java-1.8.0-openjdk-devel -y
     ```   
-
-
 ---------------------------------------
 
 Additional comments
@@ -124,4 +118,3 @@ Additional comments
         
         Tip : Search for git, github, and pipeline and install all.  
         
-          
