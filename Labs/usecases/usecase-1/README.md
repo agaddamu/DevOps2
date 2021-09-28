@@ -15,12 +15,9 @@ Step 1. Resource creation
  
  4. Create role for EC2 (Application Role)
     1. IAM role for the EC2 on which application is deployed 'EC2_DefaultRole'
-        
        - Attach these service role required for application to run.
             2. AmazonS3FullAccess 
-            5. AmazonEc2FullAccess   
-
-
+            5. AmazonEc2FullAccess
 ---------------------------------------
 
 Step 2. Pre-requisites:
