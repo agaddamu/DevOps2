@@ -25,7 +25,7 @@ Step 1. Resource creation
  5. Create and Security group with all inbound and outbound access and attach this to Ec2.
       - ALL TCP traffic from Anywhere
       - Recommendation - Use more restricted inbound access.
- 6. Create stack using CloudFormation: RisingMinerva-Jenkins-EC2-CFT.yml
+ 6. Create stack using CloudFormation: [**RisingMinerva-Jenkins-EC2-CFT.yml**](https://github.com/Rising-Minerva/DevOps/blob/main/Jenkins_Installation/RisingMinerva-Jenkins-EC2-CFT.yml) 
 ---------------------------------------
 
 Step 2. Below are the commands to be executed to manually install and configure Jenkins
@@ -73,8 +73,6 @@ Step 3. Common error
      sudo amazon-linux-extras install epel -y 
      sudo yum install jenkins java-1.8.0-openjdk-devel -y
     ```   
-
-
 ---------------------------------------
 
 Additional comments
