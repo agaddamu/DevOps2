@@ -128,7 +128,7 @@ Step 6. Notes/Additional instructions:
              ![alt text](../../../images/FinalPipeline.png). 
  7. We can destroy old cluster by terraform destroy command when new cluster is created
        - Destroy plan file is uploaded in s3 from jenkins steps 
-       - Line# 88, 89, 71, 72
+       - Jenkinsfile - Line# 88, 89, 71, 72 
                 
         aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/<version>/planfile .
         terraform apply -auto-approve planfile      

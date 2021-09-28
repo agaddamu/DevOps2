@@ -94,7 +94,7 @@ resource "aws_instance" "app_server" {
                   mkdir myproject
                   pip install *.whl
                   pip install *.whl -t /root/myproject
-                  echo "export FLASK_APP=/root/myproject/my_application/application"  >> /etc/profile
+                  echo "export FLASK_APP=/root/myproject/Labs/usecases/usecase-1/my_application"  >> /etc/profile
                   source /etc/profile
                   nohup flask run --host=0.0.0.0 --port 80 > log.txt 2>&1 &
                   echo "Application started"
