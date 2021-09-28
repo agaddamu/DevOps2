@@ -1,7 +1,7 @@
 // Defining constant global variables
 def S3_BUCKET = "s3://test-rishabh"
 def S3_BINARY_PATH = "users/temp/"
-def S3_TERRAFORM_PATH = "users/terraform/"
+def S3_TERRAFORM_PATH = "users/terraform"
 def VERSION = "1.0.0"
 
 // Pipeline definition
@@ -65,8 +65,8 @@ pipeline {
               terraform -v
               cd Labs/usecases/usecase-2/terraform/blue/
               terraform init
-               aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile .
-              terraform apply -auto-approve planfile
+               aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile . --quiet
+              terraform apply -auto-approve planfile 2>/dev/null
               rm -rf planfile
               terraform plan -out plan.out -var="RELEASE_VERSION=${VERSION}"
               terraform apply -auto-approve plan.out -var="RELEASE_VERSION={VERSION}"
@@ -86,8 +86,8 @@ pipeline {
               terraform -v
               cd Labs/usecases/usecase-2/terraform/green/
               terraform init
-               aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile .
-              terraform apply -auto-approve planfile
+              aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile . --quiet
+              terraform apply -auto-approve planfile 2>/dev/null
               rm -rf planfile
               terraform plan -out plan.out -var="RELEASE_VERSION=${VERSION}"
               terraform apply -auto-approve plan.out -var="RELEASE_VERSION={VERSION}"
