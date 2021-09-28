@@ -1,0 +1,108 @@
+// Defining constant global variables
+def S3_BUCKET = "s3://test-rishabh"
+def S3_BINARY_PATH = "users/temp/"
+def S3_TERRAFORM_PATH = "users/terraform/"
+def VERSION = "1.0.0"
+
+// Pipeline definition
+pipeline {
+  agent any
+  parameters {
+    choice(
+      name: 'Deploy_ENV',
+      choices: ['BLUE', 'GREEN'],
+      description: 'SELECT the production cluster to deploy'
+    )
+  }
+  stages {
+  // build stage
+    stage('build') {
+      steps {
+        sh 'virtualenv .venv' // Creating the python virtual environment
+        // Running python setup tool to create wheel distribution file
+        sh """
+            source .venv/bin/activate
+            pip install -r Labs/usecases/usecase-1/requirements.txt
+            pip install wheel
+            python Labs/usecases/usecase-1/setup.py bdist_wheel
+           """
+      }
+    }
+  // test stage
+    stage('test') {
+      steps {
+        // Running the test suits present in code
+        sh """
+             source .venv/bin/activate
+             python Labs/usecases/usecase-1/my_application/test.py
+           """
+      }
+      // Generating test reports
+      post {
+        always {
+          junit 'test-reports/*.xml'
+        }
+      }
+    }
+    // Stage to upload binary to s3
+    // Deactivating python virtual environment
+    stage('uploadBinaryToS3') {
+      steps {
+        sh """
+              source .venv/bin/activate
+              ls dist/
+              aws s3 cp dist/my_application-*.whl ${S3_BUCKET}/${S3_BINARY_PATH}
+              source deactivate
+           """
+      }
+    }
+    //Deploy Blue stage
+    stage('deploy-blue') {
+       // Running terraform scripts and uploading plan file to s3
+      when { expression {  params.name == 'BLUE' }}
+      steps {
+        sh """
+              terraform -v
+              cd Labs/usecases/usecase-2/terraform/blue/
+              terraform init
+               aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile .
+              terraform apply -auto-approve planfile
+              rm -rf planfile
+              terraform plan -out plan.out -var="RELEASE_VERSION=${VERSION}"
+              terraform apply -auto-approve plan.out -var="RELEASE_VERSION={VERSION}"
+              terraform plan -destroy -out planfile -var="RELEASE_VERSION={VERSION}"
+              aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/
+              aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/
+
+           """
+      }
+    } // End stage
+    //Deploy Green stage
+    stage('deploy-green') {
+       // Running terraform scripts and uploading plan file to s3
+      when { expression {  params.name == 'GREEN' }}
+      steps {
+        sh """
+              terraform -v
+              cd Labs/usecases/usecase-2/terraform/green/
+              terraform init
+               aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile .
+              terraform apply -auto-approve planfile
+              rm -rf planfile
+              terraform plan -out plan.out -var="RELEASE_VERSION=${VERSION}"
+              terraform apply -auto-approve plan.out -var="RELEASE_VERSION={VERSION}"
+              terraform plan -destroy -out planfile -var="RELEASE_VERSION={VERSION}"
+              aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/
+              aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/
+
+           """
+      }
+    }
+  } // End stages
+  // Stage to clean up workspace
+  post {
+        always {
+            cleanWs()
+        }
+    }
+}

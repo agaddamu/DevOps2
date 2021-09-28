@@ -19,7 +19,7 @@ Step 1. Resource creation
        - Attach these service role required for application to run.
             2. AmazonS3FullAccess 
             5. AmazonEc2FullAccess   
-
+ 5. We will be using the same application code as used in usecase-1
 
 ---------------------------------------
 
@@ -72,7 +72,7 @@ Step 5. Step By Step Execution
     ![alt text](../../../images/GithubWebHook.png)
     ![alt text](../../../images/GithubWebHook2.png)
     Payload URL is the jenkins URL.
- 3. Create the jenins pipeline.
+ 3. Create the jenkins pipeline.
        - Select new item from jenkins dashboard ![alt text](../../../images/JenkinsNewItem.png)
        - Select pipeline project with any name ![alt text](../../../images/NewJenkinsPipeline.png)
        - Select any log rotation duration according to your use & enter the github URl ![alt text](../../../images/LogRotationAndGithub.png)
