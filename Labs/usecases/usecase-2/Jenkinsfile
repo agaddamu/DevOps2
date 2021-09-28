@@ -65,8 +65,8 @@ pipeline {
               terraform -v
               cd Labs/usecases/usecase-2/terraform/blue/
               terraform init
-               aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile . --quiet
-              terraform apply -auto-approve planfile 2>/dev/null
+              #aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile . --quiet
+              #terraform apply -auto-approve planfile 2>/dev/null
               rm -rf planfile
               terraform plan -out plan.out -var="RELEASE_VERSION=${VERSION}"
               terraform apply -auto-approve plan.out -var="RELEASE_VERSION={VERSION}"
@@ -86,8 +86,8 @@ pipeline {
               terraform -v
               cd Labs/usecases/usecase-2/terraform/green/
               terraform init
-              aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile . --quiet
-              terraform apply -auto-approve planfile 2>/dev/null
+              #aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile . --quiet
+              #terraform apply -auto-approve planfile 2>/dev/null
               rm -rf planfile
               terraform plan -out plan.out -var="RELEASE_VERSION=${VERSION}"
               terraform apply -auto-approve plan.out -var="RELEASE_VERSION={VERSION}"
