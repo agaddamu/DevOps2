@@ -2,7 +2,6 @@
 def S3_BUCKET = "s3://test-rishabh"
 def S3_BINARY_PATH = "users/temp/"
 def S3_TERRAFORM_PATH = "users/terraform"
-def VERSION = "1.0.0"
 
 // Pipeline definition
 pipeline {
@@ -13,6 +12,7 @@ pipeline {
       choices: ['BLUE', 'GREEN'],
       description: 'SELECT the production cluster to deploy'
     )
+     string(name: 'VERSION', defaultValue: '1.0.0', description: 'Version to deploy on production cluster')
   }
   stages {
   // build stage
@@ -68,12 +68,11 @@ pipeline {
               #aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile . --quiet
               #terraform apply -auto-approve planfile 2>/dev/null
               rm -rf planfile
-              terraform plan -out plan.out -var="RELEASE_VERSION=${VERSION}"
+              terraform plan -out plan.out -var="RELEASE_VERSION=${params.VERSION}"
               terraform apply -auto-approve plan.out
-              terraform plan -destroy -out planfile -var="RELEASE_VERSION=${VERSION}"
+              terraform plan -destroy -out planfile -var="RELEASE_VERSION=${params.VERSION}"
               aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/
               aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/
-
            """
       }
     } // End stage
@@ -89,12 +88,11 @@ pipeline {
               #aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/planfile . --quiet
               #terraform apply -auto-approve planfile 2>/dev/null
               rm -rf planfile
-              terraform plan -out plan.out -var="RELEASE_VERSION=${VERSION}"
-              #terraform apply -auto-approve plan.out
-              terraform plan -destroy -out planfile -var="RELEASE_VERSION=${VERSION}"
+              terraform plan -out plan.out -var="RELEASE_VERSION=${params.VERSION}"
+              terraform apply -auto-approve plan.out
+              terraform plan -destroy -out planfile -var="RELEASE_VERSION=${params.VERSION}"
               aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/
               aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/
-
            """
       }
     }
