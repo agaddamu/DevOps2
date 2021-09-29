@@ -48,7 +48,7 @@ variable "RELEASE_VERSION" {
 }
 
 resource "aws_security_group" "basic_security" {
-  name = "sg_flask"
+  name = "sg_flask-2"
   description = "Web Security Group for HTTP"
   vpc_id =  var.VPC
   ingress = [
@@ -103,7 +103,7 @@ resource "aws_instance" "app_server_1" {
                   mkdir myproject
                   pip install *.whl
                   pip install *.whl -t /root/myproject
-                  echo "export FLASK_APP=/root/myproject/Labs/usecases/usecase-2/my_application"  >> /etc/profile
+                  echo "export FLASK_APP=/root/myproject/Labs/usecases/usecase-2/my_application/application"  >> /etc/profile
                   source /etc/profile
                   nohup flask run --host=0.0.0.0 --port 80 > log.txt 2>&1 &
                   echo "Application started"
