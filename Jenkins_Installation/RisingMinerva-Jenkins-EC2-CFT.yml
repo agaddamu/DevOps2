@@ -71,6 +71,7 @@ Resources:
           sudo yum install daemonize -y  
           sudo wget -O  /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo 
           sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+          sudo yum install git -y           
           sudo yum install jenkins -y 
           sudo service jenkins start
           sudo systemctl status jenkins
