@@ -5,7 +5,7 @@ application = Flask(__name__)
 @application.route('/')
 @application.route('/health/')
 def health_check():
-    return 'Health OK!'
+    return '200 - Health OK!'
 
 
 @application.route('/hello/<username>')
