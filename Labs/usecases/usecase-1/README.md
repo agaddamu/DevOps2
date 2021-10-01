@@ -29,7 +29,6 @@ Step 2. Pre-requisites:
 ---------------------------------------
 
 Step 3. Review code
-
  1. my_application/application.py - Flask Application main file.
  2. my_application/test.py - Test cases covering all function of the main application. 
  3. Jenkinsfile - Jenkins pipeline file.
@@ -37,7 +36,6 @@ Step 3. Review code
  5. setup.py - Build setup file for creating python wheel package for distribution. For details description -https://flask.palletsprojects.com/en/2.0.x/patterns/distribute/#installing-developing
  6. terraform/iac_usecase_1.tf - Terraform file for creating application infrastructure.
  7. provider.tf - Terraform cloud provider file to specify the AWS region. 
- 
 
 ---------------------------------------
 
@@ -59,29 +57,30 @@ Step 4. Changes to Application files
         - [line#- 3]: - S3 path to upload the binary package. 
           - **SHPOULD BE EXACTLY SAME AS LINE 37 OF iac_usecase_1.tf**
         - [line#- 4]: - S3 path for Terraform create destroy plan.
-
-
 ---------------------------------------
 
 Step 5. Step By Step Execution
     
- 1. Setup and configure jenkins(details present in earlier slides).
+ 1. Setup and configure jenkins (details present in earlier slides).
  2. Create a githb webhook(details present in earlier slides).
     ![alt text](../../../images/GithubWebHook.png)
     ![alt text](../../../images/GithubWebHook2.png)
     Payload URL is the jenkins URL.
+    
  3. Create the jenins pipeline.
-       - Select new item from jenkins dashboard ![alt text](../../../images/JenkinsNewItem.png)
-       - Select pipeline project with any name ![alt text](../../../images/NewJenkinsPipeline.png)
-       - Select any log rotation duration according to your use & enter the github URl ![alt text](../../../images/LogRotationAndGithub.png)
-       - Select build trigger as Github hook. ![alt text](../../../images/BuildTriggers.png)
+       - Select **New Item** from jenkins dashboard ![alt text](../../../images/JenkinsNewItem.png)
+       - Select **pipeline** project with any name ![alt text](../../../images/NewJenkinsPipeline.png)
+       - Click **Discard old builds ** 
+           - Select any log rotation duration according to your use & enter the github URl ![alt text](../../../images/LogRotationAndGithub.png)
+       - Select **Build Trigger as GitHub hook trigger for GITScm polling** ![alt text](../../../images/BuildTriggers.png)
        - In Pipeline section 
             - definition - Pipeline script from SCM (Source code management)
             - SCM - Git
             - Repository URL - github URL
             - Credentials - if Repository is not public
-            - Name - origin
-            - Refspec - `+refs/heads/*:refs/remotes/origin/*`
+            - Click Advanced
+                - Name - origin
+                - Refspec - `+refs/heads/*:refs/remotes/origin/*`
             - Branches to build - Leave blank
             - Repository browser - Auto
              ![alt text](../../../images/SCM.png)
@@ -99,7 +98,6 @@ Step 5. Step By Step Execution
  10. Github Hook Logs can also been seen from dashboard.
              ![alt text](../../../images/HookLog.png)              
  
-
 ---------------------------------------
 
 Step 6. Notes/Additional instructions:
