@@ -71,10 +71,20 @@ Resources:
           sudo yum install daemonize -y  
           sudo wget -O  /etc/yum.repos.d/jenkins.repo http://pkg.jenkins-ci.org/redhat/jenkins.repo 
           sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
+          
+          # Install Git to be able to connect to GITHUB
           sudo yum install git -y           
+          
+          # Install Jenkins
           sudo yum install jenkins -y 
           sudo service jenkins start
           sudo systemctl status jenkins
+          
+          # Install Terraform
+          sudo yum install -y yum-utils
+          sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
+          sudo yum -y install terraform
+          terraform help
       Tags:
          - Key: "EC2Name"
            Value: !Join ["_", [Rising, Minerva, Jenkins, Server, !Ref "AWS::Region", !Ref Environment]]
