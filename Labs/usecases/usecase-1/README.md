@@ -55,8 +55,9 @@ Step 4. Changes to Application files
         - [line#- 14]: - Public subnet id.
         - [line#- 37]: - S3 path to download binary package.
      3. Jenkinsfile 
-        **- [line#- 2]: - S3 Bucket**
-        **- [line#- 3]: - S3 path to upload the binary package. SHPOULD BE EXACTLY SAME AS LINE 37 OF iac_usecase_1.tf**
+        - [line#- 2]: - S3 Bucket
+        - [line#- 3]: - S3 path to upload the binary package. 
+          - **SHPOULD BE EXACTLY SAME AS LINE 37 OF iac_usecase_1.tf**
         - [line#- 4]: - S3 path for Terraform create destroy plan.
 
 
