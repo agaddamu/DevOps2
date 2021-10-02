@@ -133,6 +133,7 @@ resource "aws_instance" "app_server" {
                   sudo su -
                   sudo yum -y install pip
                   aws s3 cp "${var.S3_PATH}" . --recursive
+				  ls -lrt
                   mkdir myproject
                   pip install *.whl
                   pip install *.whl -t /root/myproject
