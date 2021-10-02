@@ -27,10 +27,9 @@ variable "AMI" {
   description = "AMI image id for EC2 instance to bake the EC2"
 }
 
-variable "EC2_ROLE" {
-  type = string
-  default = "EC2JenkinsRole"
-  description = "Role attached to ec2 Group"
+resource "aws_iam_instance_profile" "rm_iam_profile" {
+  name = "rm_iam_profile"
+  role = "EC2JenkinsRole"
 }
 
 variable "EC2_TYPE" {
@@ -123,6 +122,7 @@ resource "aws_instance" "app_server" {
   key_name  = var.KEYNAME
   instance_type = var.EC2_TYPE
   subnet_id = var.SUBNET
+  iam_instance_profile = aws_iam_instance_profile.rm_iam_profile.name  
   associate_public_ip_address = true
   vpc_security_group_ids = [
 	aws_security_group.basic_http.id,
