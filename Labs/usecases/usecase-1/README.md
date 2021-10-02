@@ -84,7 +84,7 @@ Step 5. Step By Step Execution
             - Click Advanced
                 - Name - origin
                 - Refspec - `+refs/heads/*:refs/remotes/origin/*`
-            - Branches to build - Leave blank
+            - Branches to build - */*
             - Repository browser - Auto
              ![alt text](../../../images/SCM.png)
  4. In the script path - Labs/usecases/usecase-1/Jenkinsfile 
