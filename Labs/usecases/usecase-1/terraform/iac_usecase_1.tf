@@ -17,7 +17,7 @@ variable "SUBNET" {
 
 variable "AMI" {
   type = string
-  default = "ami-0c2d06d50ce30b442"
+  default = "ami-00dc79254d0461090"
   description = "AMI image id for EC2 instance to bake the EC2"
 }
 
