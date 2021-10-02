@@ -15,6 +15,11 @@ variable "SUBNET" {
   description = "Public subnet for deploying the application"
 }
 
+variable "KEYNAME" {
+  type = string
+  default = "RisingMinerva-EAST-KeyPair"
+  description = "Key name for the EC2"
+
 variable "AMI" {
   type = string
   default = "ami-00dc79254d0461090"
@@ -34,7 +39,7 @@ variable "EC2_TYPE" {
 
 variable "S3_PATH" {
   type = string
-  default = "s3://risingminervacodebase-rchaturvedi/devops/app/"
+  default = "s3://risingminervacodebase-rchaturvedi/devops/app"
   description = "S3 Path of an deployed image"
 }
 
@@ -79,8 +84,8 @@ resource "aws_security_group" "basic_security" {
 
 resource "aws_instance" "app_server" {
   ami = var.AMI
-  iam_instance_profile = var.EC2_ROLE
-  instance_type = var.EC2_TYPE
+  key_name  = var.EC2_ROLE
+  instance_type = var.KEYNAME
   subnet_id = var.SUBNET
   associate_public_ip_address = true
   vpc_security_group_ids = [
