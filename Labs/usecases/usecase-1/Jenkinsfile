@@ -55,6 +55,7 @@ pipeline {
         sh """
               terraform -v
               cd Labs/usecases/usecase-1/terraform
+			  ls -lrt
               terraform init
               terraform plan -out plan.out
               terraform apply -auto-approve plan.out
