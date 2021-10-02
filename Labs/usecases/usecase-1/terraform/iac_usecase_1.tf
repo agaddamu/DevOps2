@@ -76,7 +76,7 @@ resource "aws_security_group" "basic_security" {
       self = true
     }
   ]
-
+}
 
 resource "aws_security_group" "basic_ssh" {
   name = "sg_flask"
@@ -126,7 +126,6 @@ resource "aws_instance" "app_server" {
   vpc_security_group_ids = [
     aws_security_group.basic_security.id,
 	aws_security_group.basic_ssh.id
-
   ]
   user_data = <<EOF
                   #!/bin/bash
