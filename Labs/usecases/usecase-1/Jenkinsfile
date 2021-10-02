@@ -58,7 +58,7 @@ pipeline {
 			  ls -lrt
               terraform init
               terraform plan -out plan.out
-              terraform apply -auto-approve plan.out
+              terraform apply -auto-approve plan.out # Can pass paramters here if needed. Refer here https://stackoverflow.com/questions/63203489/how-can-i-pass-variables-from-jenkins-file-to-terraform
               terraform plan -destroy -out planfile
               aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}
               aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}
