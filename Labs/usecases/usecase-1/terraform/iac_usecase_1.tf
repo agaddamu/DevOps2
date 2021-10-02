@@ -43,8 +43,8 @@ variable "S3_PATH" {
   description = "S3 Path of an deployed image"
 }
 
-resource "aws_security_group" "basic_security" {
-  name = "sg_flask"
+resource "aws_security_group" "basic_http" {
+  name = "sg_flask-rm"
   description = "Web Security Group for HTTP"
   vpc_id =  var.VPC
   ingress = [
@@ -124,9 +124,8 @@ resource "aws_instance" "app_server" {
   subnet_id = var.SUBNET
   associate_public_ip_address = true
   vpc_security_group_ids = [
-    aws_security_group.basic_security.id,
-	aws_security_group.basic_ssh.id
-  ]
+	aws_security_group.basic_http.id,
+	aws_security_group.basic_ssh.id]
   user_data = <<EOF
                   #!/bin/bash
                   echo "Starting user_data"
