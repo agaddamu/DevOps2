@@ -1,17 +1,17 @@
 variable "VPC" {
   type = string
-  default = "vpc-9799dfdfccn"
+  default = "vpc-ef705e95"
   description = "VPC in which we need to create resources"
 }
 variable "CIDR" {
   type    = list(string)
-  default = ["91.92.93.94/32"]
+  default = ["0.0.0.0/0"]
   description = "CIDR list for allowing traffic from SG"
 }
 
 variable "SUBNET" {
   type = string
-  default = "subnet-0d-public-e"
+  default = "subnet-8c41e3c1"
   description = "Public subnet for deploying the application"
 }
 
@@ -23,18 +23,18 @@ variable "AMI" {
 
 variable "EC2_ROLE" {
   type = string
-  default = "EC2_DefaultRole"
+  default = "EC2JenkinsRole"
   description = "Role attached to ec2 Group"
 }
 
 variable "EC2_TYPE" {
   type = string
-  default = "t2.nano"
+  default = "t2.micro"
 }
 
 variable "S3_PATH" {
   type = string
-  default = "s3://test-ankur/users/temp/"
+  default = "s3://risingminervacodebase-rchaturvedi/devops/app/"
   description = "S3 Path of an deployed image"
 }
 
@@ -90,7 +90,7 @@ resource "aws_instance" "app_server" {
                   echo "Starting user_data"
                   sudo su -
                   sudo yum -y install pip
-                  aws s3 cp  "${var.S3_PATH}" . --recursive
+                  aws s3 cp "${var.S3_PATH}" . --recursive
                   mkdir myproject
                   pip install *.whl
                   pip install *.whl -t /root/myproject
@@ -104,4 +104,3 @@ resource "aws_instance" "app_server" {
     Name = "rm-application"
   }
 }
-

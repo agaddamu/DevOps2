@@ -73,7 +73,8 @@ Resources:
           sudo rpm --import https://pkg.jenkins.io/redhat/jenkins.io.key
           
           # Install Git to be able to connect to GITHUB
-          sudo yum install git -y           
+          sudo yum install git -y     
+          sudo yum install python-virtualenv -y           
           
           # Install Jenkins
           sudo yum install jenkins -y 

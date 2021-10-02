@@ -1,7 +1,7 @@
 // Defining constant global variables
-def S3_BUCKET = "s3://test-ankur-1"
-def S3_BINARY_PATH = "users/temp/"
-def S3_TERRAFORM_PATH = "users/terraform/"
+def S3_BUCKET = "s3://risingminervacodebase-rchaturvedi/"
+def S3_BINARY_PATH = "devops/app/"
+def S3_TERRAFORM_PATH = "devops/terraform/"
 
 // Pipeline definition
 pipeline {
