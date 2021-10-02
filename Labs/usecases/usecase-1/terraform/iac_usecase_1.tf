@@ -19,6 +19,7 @@ variable "KEYNAME" {
   type = string
   default = "RisingMinerva-EAST-KeyPair"
   description = "Key name for the EC2"
+}
 
 variable "AMI" {
   type = string
@@ -79,7 +80,7 @@ resource "aws_security_group" "basic_http" {
 }
 
 resource "aws_security_group" "basic_ssh" {
-  name = "sg_flask"
+  name = "sg_ssh-rm"
   description = "Web Security Group for HTTP"
   vpc_id =  var.VPC
   ingress = [
