@@ -1,2 +1,2 @@
-# DevOps-Example-repo - changed file USECASE-1
+# DevOps-Example-repo - changed file USECASEs
 Updated Jenkins URL in webhook
