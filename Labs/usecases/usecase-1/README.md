@@ -63,16 +63,16 @@ Step 5. Step By Step Execution
     
  1. Setup and configure jenkins (details present in earlier slides).
  2. Create a githb webhook(details present in earlier slides).
-    ![alt text](../../../images/GithubWebHook.png width="200" height="200")
-    ![alt text](../../../images/GithubWebHook2.png)
+    ![alt text](../../../images/GithubWebHook.png width="100" height="100")
+    ![alt text](../../../images/GithubWebHook2.png width="100" height="100")
     Payload URL is the jenkins URL.
     
  3. Create the jenins pipeline.
-       - Select **New Item** from jenkins dashboard ![alt text](../../../images/JenkinsNewItem.png)
-       - Select **pipeline** project with any name ![alt text](../../../images/NewJenkinsPipeline.png)
+       - Select **New Item** from jenkins dashboard ![alt text](../../../images/JenkinsNewItem.png width="100" height="100")
+       - Select **pipeline** project with any name ![alt text](../../../images/NewJenkinsPipeline.png width="100" height="100")
        - Click **Discard old builds ** 
-           - Select any log rotation duration according to your use & enter the github URl ![alt text](../../../images/LogRotationAndGithub.png)
-       - Select **Build Trigger as GitHub hook trigger for GITScm polling** ![alt text](../../../images/BuildTriggers.png)
+           - Select any log rotation duration according to your use & enter the github URl ![alt text](../../../images/LogRotationAndGithub.png width="100" height="100")
+       - Select **Build Trigger as GitHub hook trigger for GITScm polling** ![alt text](../../../images/BuildTriggers.png width="100" height="100")
        - In Pipeline section 
             - definition - Pipeline script from SCM (Source code management)
             - SCM - Git
@@ -86,20 +86,20 @@ Step 5. Step By Step Execution
                 - Refspec - `+refs/heads/*:refs/remotes/origin/*`
             - Branches to build - */*
             - Repository browser - Auto
-             ![alt text](../../../images/SCM.png)
+             ![alt text](../../../images/SCM.png width="100" height="100")
  4. In the script path - Labs/usecases/usecase-1/Jenkinsfile 
-             ![alt text](../../../images/JenkinsFile.png)
+             ![alt text](../../../images/JenkinsFile.png width="100" height="100")
  5. For additional behaviour plugins must be installed like "Github, Wipe repository". Detailed information is present in jenkis configuration slide.
  6. Commit the code in the github to trigger the pipeline. You can check the hook delivery matching with commitId.
-              ![alt text](../../../images/HookRecentDelivery.png)   
+              ![alt text](../../../images/HookRecentDelivery.png width="100" height="100")   
  7. Jenkins pipeline must be triggered.
-              ![alt text](../../../images/PipelineStatus.png) 
+              ![alt text](../../../images/PipelineStatus.png width="100" height="100") 
  8. Pipeline logs can be seen by hovering each steps.
-              ![alt text](../../../images/PipelineLogs.png)
+              ![alt text](../../../images/PipelineLogs.png width="100" height="100")
  9. Test result trends is also available for each build.
-              ![alt text](../../../images/TestResultTrend.png)              
+              ![alt text](../../../images/TestResultTrend.png width="100" height="100")              
  10. Github Hook Logs can also been seen from dashboard.
-             ![alt text](../../../images/HookLog.png)              
+             ![alt text](../../../images/HookLog.png width="100" height="100")              
  
 ---------------------------------------
 
@@ -108,10 +108,12 @@ Step 6. Notes/Additional instructions:
  1. Check if the binary is successfully updated on s3.
  2. Binary version can be changed from setup.py file - `version='1.0.0'`
  3. Login to AWS to check the resources created 
-             ![alt text](../../../images/ec2.png).
+             ![alt text](../../../images/ec2.png width="100" height="100").
  4. Check the security group created
  5. Application can be accessed by ec2 public ip.
-             ![alt text](../../../images/Hello.png).    
+             ![alt text](../../../images/Hello.png width="100" height="100").    
  6. final pipeline will look like this 
-             ![alt text](../../../images/FinalPipeline.png).                        
+             ![alt text](../../../images/FinalPipeline.png width="100" height="100")
+ 7. Logs on EC2 available in belo log file
+     more /var/log/jenkins/jenkins.log
     
