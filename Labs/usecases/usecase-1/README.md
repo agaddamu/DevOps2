@@ -63,7 +63,7 @@ Step 5. Step By Step Execution
     
  1. Setup and configure jenkins (details present in earlier slides).
  2. Create a githb webhook(details present in earlier slides).
-    ![alt text](../../../images/GithubWebHook.png)
+    ![alt text](../../../images/GithubWebHook.png width="200" height="200")
     ![alt text](../../../images/GithubWebHook2.png)
     Payload URL is the jenkins URL.
     
