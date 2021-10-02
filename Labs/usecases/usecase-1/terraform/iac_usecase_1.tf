@@ -28,7 +28,7 @@ variable "AMI" {
 }
 
 resource "aws_iam_instance_profile" "rm_iam_profile" {
-  name = "risingminerva_iam_profile"
+  name = "rm_iam_profile"
   role = "EC2JenkinsRole"
 }
 
