@@ -84,8 +84,8 @@ resource "aws_security_group" "basic_security" {
 
 resource "aws_instance" "app_server" {
   ami = var.AMI
-  key_name  = var.EC2_ROLE
-  instance_type = var.KEYNAME
+  key_name  = var.KEYNAME
+  instance_type = var.EC2_TYPE
   subnet_id = var.SUBNET
   associate_public_ip_address = true
   vpc_security_group_ids = [
