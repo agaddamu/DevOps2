@@ -77,7 +77,10 @@ Step 5. Step By Step Execution
             - definition - Pipeline script from SCM (Source code management)
             - SCM - Git
             - Repository URL - github URL
-            - Credentials - if Repository is not public
+            - Credentials - Provide GITHUB credentials
+                - **After August 2021, Github requires access token instead of password**
+                - In Github, go to User Profile -> Developer settings and generate a token
+                - Use this token in the credentials
             - Click Advanced
                 - Name - origin
                 - Refspec - `+refs/heads/*:refs/remotes/origin/*`
