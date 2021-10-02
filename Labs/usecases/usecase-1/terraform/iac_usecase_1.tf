@@ -77,6 +77,41 @@ resource "aws_security_group" "basic_security" {
     }
   ]
 
+
+resource "aws_security_group" "basic_ssh" {
+  name = "sg_flask"
+  description = "Web Security Group for HTTP"
+  vpc_id =  var.VPC
+  ingress = [
+    {
+      description = "Allow HTTP Traffic access"
+      from_port = 22
+      to_port = 22
+      protocol = "tcp"
+      cidr_blocks = var.CIDR
+      security_groups = []
+      ipv6_cidr_blocks = []
+      prefix_list_ids = []
+      self = true
+    }
+  ]
+
+  egress = [
+    {
+      description = "Allow all outbound traffic"
+      from_port = 0
+      to_port = 0
+      protocol = "-1"
+      cidr_blocks = [
+        "0.0.0.0/0"]
+      ipv6_cidr_blocks = [
+        "::/0"]
+      security_groups = []
+      prefix_list_ids = []
+      self = true
+    }
+  ]
+
   tags = {
     Name = "rm-application"
   }
@@ -89,7 +124,10 @@ resource "aws_instance" "app_server" {
   subnet_id = var.SUBNET
   associate_public_ip_address = true
   vpc_security_group_ids = [
-    aws_security_group.basic_security.id]
+    aws_security_group.basic_security.id,
+	aws_security_group.basic_ssh.id
+
+  ]
   user_data = <<EOF
                   #!/bin/bash
                   echo "Starting user_data"
