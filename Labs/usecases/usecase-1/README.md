@@ -1,8 +1,6 @@
 # DevOps
 # USE CASE-1 
 ---------------------------------------
- 
-
 Step 1. Resource creation
     
  1. AWS **account** is required with permission to create role.
@@ -63,7 +61,7 @@ Step 5. Step By Step Execution
     
  1. Setup and configure jenkins (details present in earlier slides).
  2. Create a githb webhook(details present in earlier slides).
-    ![alt text](../../../images/GithubWebHook.png width="200" height="200")
+    ![alt text](../../../images/GithubWebHook.png)
     ![alt text](../../../images/GithubWebHook2.png)
     Payload URL is the jenkins URL.
     
@@ -113,5 +111,7 @@ Step 6. Notes/Additional instructions:
  5. Application can be accessed by ec2 public ip.
              ![alt text](../../../images/Hello.png).    
  6. final pipeline will look like this 
-             ![alt text](../../../images/FinalPipeline.png).                        
+             ![alt text](../../../images/FinalPipeline.png)
+ 7. Logs on EC2 available in belo log file
+     more /var/log/jenkins/jenkins.log
     
