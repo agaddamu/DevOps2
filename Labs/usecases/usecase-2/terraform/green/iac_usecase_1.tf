@@ -60,7 +60,7 @@ variable "RELEASE_VERSION" {
   description = "S3 Path of an deployed image"
 }
 
-resource "aws_security_group" "basic_security" {
+resource "aws_security_group" "basic_http" {
   name = "sg_flask-usecase2-green"
   description = "Web Security Group for HTTP"
   vpc_id =  var.VPC
@@ -101,7 +101,7 @@ resource "aws_security_group" "basic_security" {
 
 resource "aws_security_group" "basic_ssh" {
   name = "sg_ssh-rm-usecase2-green"
-  description = "Web Security Group for HTTP"
+  description = "SSH Security Group"
   vpc_id =  var.VPC
   ingress = [
     {
@@ -138,7 +138,7 @@ resource "aws_security_group" "basic_ssh" {
   }
 }
 
-resource "aws_instance" "app_server_1" {
+resource "aws_instance" "app_server_usecase2_green" {
   ami = var.AMI
   key_name  = var.KEYNAME
   instance_type = var.EC2_TYPE
