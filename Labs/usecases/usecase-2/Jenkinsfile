@@ -72,8 +72,8 @@ pipeline {
               terraform plan -out plan.out -var="RELEASE_VERSION=${params.VERSION}"
               terraform apply -auto-approve plan.out
               terraform plan -destroy -out planfile -var="RELEASE_VERSION=${params.VERSION}"
-              aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/${params.VERSION}
-              aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/${params.VERSION}
+              aws s3 cp plan.out ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/${params.VERSION}/
+              aws s3 cp planfile ${S3_BUCKET}/${S3_TERRAFORM_PATH}/blue/${params.VERSION}/
            """
       }
     } // End stage
