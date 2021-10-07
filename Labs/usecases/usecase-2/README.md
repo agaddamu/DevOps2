@@ -1,8 +1,6 @@
 # DevOps
 # USE CASE-2  Blue Green Deployment
 ---------------------------------------
- 
-
 Step 1. Resource creation
     
  1. AWS **account** is required with permission to create role.
@@ -74,7 +72,6 @@ Step 4. Changes to Application files
      4. Setup.py
         - [Line# -5]: - Version of the application.** IMPORTANT AS YOU WILL DEPLOY TWO DIFFERENT VERSIONS IN BLUE VS GREEN**
 ---------------------------------------
-
 Step 5. Step By Step Execution
     
  1. Setup and configure jenkins(details present in earlier slides).
@@ -87,28 +84,74 @@ Step 5. Step By Step Execution
        - Select pipeline project with any name ![alt text](../../../images/NewJenkinsPipeline.png)
        - Select any log rotation duration according to your use & enter the github URl ![alt text](../../../images/LogRotationAndGithub.png)
        - Select build trigger as Github hook. ![alt text](../../../images/BuildTriggers.png)
+       - We will be deploying different tag version on different cluster.
        - In Pipeline section 
             - definition - Pipeline script from SCM (Source code management)
             - SCM - Git
             - Repository URL - github URL
             - Credentials - if Repository is not public
             - Name - origin
-            - Refspec - `+refs/heads/*:refs/remotes/origin/*`
-            - Branches to build - Leave blank
+            - Refspec (Specify to build tags) 
+                - `+refs/tags/*:refs/remotes/origin/tags/*`
+            - Branches to build (TAG_VERSION variables will flow from jenkins pipeline parameter)
+                - `refs/tags/${TAG_VERSION}`
             - Repository browser - Auto
-             ![alt text](../../../images/SCM.png)
+             ![alt text](../../../images/SCM2.png)
  4. In the script path - Labs/usecases/usecase-2/Jenkinsfile 
              ![alt text](../../../images/JenkinsFile2.png)
  5. For additional behaviour plugins must be installed like "Github, Wipe repository". Detailed information is present in jenkis configuration slide.
- 5. Jenkins pipeline can be triggered from 'Build with parameters''.
-              ![alt text](../../../images/NewBuild.png) 
- 8. Pipeline logs can be seen by hovering each steps.
-              ![alt text](../../../images/NewBuild2.png)
- 9. One stage will be skipped [either deployment on green cluster or deployment on blue cluster]             
-               ![alt text](../../../images/NewBuild2.png) 
- 9. Test result trends is also available for each build.
-              ![alt text](../../../images/TestResultTrend.png)              
-           
+ 6. Create the tag and commit the tag to github
+    ```
+    > git tag 1.0.0
+    > git push origin --tags
+      Total 0 (delta 0), reused 0 (delta 0)
+      To https://github.com/Rising-Minerva/DevOps.git
+      * [new tag]         1.0.0 -> 1.0.0
+    ```
+    We have created the tag 1.0.0 on current master branch.
+        ![alt text](../../../images/GitInitialTag.png)
+ 
+ 7. Now make some changes in the code and commit the new tag on the latest code
+     - We have update the version on Setup.py file. 
+     - Also did some major update in code file 'application.py'
+     - Commit the code changes and create a new tag on the github.
+      ```
+    > git tag 1.0.1
+    > git push origin --tags
+      Total 0 (delta 0), reused 0 (delta 0)
+      To https://github.com/Rising-Minerva/DevOps.git
+      * [new tag]         1.0.1 -> 1.0.1
+    ```
+     We have created the tag 1.0.1 on current master branch.
+         ![alt text](../../../images/MultipleTags.png)
+ 
+ 8. We can also compare code changes in two tags
+         ![alt text](../../../images/CompareTags.png)
+ 
+ 9. Jenkins pipeline can be triggered from 'Build with parameters''.
+         ![alt text](../../../images/NewBuild.png) 
+ 
+ 10. We will deploy tag version 1.0.0 on blue server and 1.0.1 on green server.
+      - Deploy Blue
+           ![alt text](../../../images/Deploy1.png) 
+           ![alt text](../../../images/Deploy-1.png) 
+            Output
+           ![alt text](../../../images/Blue.png) 
+      - Deploy Green
+            ![alt text](../../../images/Deploy2.png)          
+            ![alt text](../../../images/Deploy-2.png)
+            Output
+           ![alt text](../../../images/Green.png)           
+ 11. Pipeline logs can be seen by hovering each steps.
+            ![alt text](../../../images/NewBuild2.png)
+ 12. One stage will be skipped [either deployment on green cluster or deployment on blue cluster]             
+            ![alt text](../../../images/NewBuild2.png) 
+ 13. Test result trends is also available for each build.
+            ![alt text](../../../images/TestResultTrend.png)              
+ 14. New version can be made live by pointing LB to the new cluster.
+ 15. Old version custer can be decommissioned (See Additional Instruction Step.6 point#7)           
+ 
+
 ---------------------------------------
 
 Step 6. Notes/Additional instructions:
@@ -127,4 +170,5 @@ Step 6. Notes/Additional instructions:
        - Jenkinsfile - Line# 88, 89, 71, 72 
                 
         aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/<version>/planfile .
-        terraform apply -auto-approve planfile
+        terraform apply -auto-approve planfile      
+        
