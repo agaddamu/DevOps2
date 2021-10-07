@@ -37,12 +37,6 @@ resource "aws_iam_instance_profile" "rm_iam_profile" {
   role = "EC2JenkinsRole"
 }
 
-variable "EC2_ROLE" {
-  type = string
-  default = "EC2_DefaultRole"
-  description = "Role attached to ec2 Group"
-}
-
 variable "EC2_TYPE" {
   type = string
   default = "t2.micro"
