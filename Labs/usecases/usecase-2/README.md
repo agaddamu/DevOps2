@@ -47,34 +47,32 @@ Step 3. Review code
 Step 4. Changes to Application files
 
 1. Changes in the code files
-     1. iac_usecase_1.tf 
-        - [Line#- 6]: - Specify the AWS VPN id.
-        - [Line#- 11]: - CIDR IP block from where we want to access the application UI.
-        - [Line#- 17]: - Public subnet id.
-        - [Line#- 23]: - AMI Name for creating ec2 on which application will be deployed. Please choose the latest AMI that will have latest aws tools installed.
-                         AMI should be available in the region provided in 'provider.tf'
-        - [Line#- 29]: - IAM application role which must be attached to the Ec2 on which application is deployed. Created in prerequisite step.
-        - [Line#- 35]: - Type of Ec2 Instance.
-        - [Line#- 40]: - S3 path to download binary package.
-        - [Line#- 46]: - Version to deploy match with the version present in setup.py.
-     1. iac_usecase_2.tf 
-        - [Line#- 6]: - Specify the AWS VPN id.
-        - [Line#- 11]: - CIDR IP block from where we want to access the application UI.
-        - [Line#- 17]: - Public subnet id.
-        - [Line#- 23]: - AMI Name for creating ec2 on which application will be deployed. Please choose the latest AMI that will have latest aws tools installed.
-                         AMI should be available in the region provided in 'provider.tf'
-        - [Line#- 29]: - IAM application role which must be attached to the Ec2 on which application is deployed. Created in prerequisite step.
-        - [Line#- 35]: - Type of Ec2 Instance.
-        - [Line#- 40]: - S3 path to download binary package.
-        - [Line#- 46]: - Version to deploy match with the version present in setup.py.
-     2. Jenkinsfile 
-        - [line#- 2]: - S3 Bucket
-        - [line#- 3]: - S3 path to upload the binary package.
-        - [line#- 4]: - S3 path for Terraform create destroy plan.
-     3. Setup.py
-        - [Line# -5]: - Version of the application.   
-
-
+     1. blue/iac_usecase_2.tf - **BELOW PARAMETERS should be available in your REGION on line 2**
+        - [Line#- 7]: - Specify the AWS VPN id.
+        - [Line#- 13]: - CIDR IP block from where we want to access the application UI.
+        - [Line#- 19]: - Public subnet id.
+        - [Line#- 25]: - KEY Name for creating ec2 on which application will be deployed.
+        - [Line#- 31]: - AMI Name for creating ec2 on which application will be deployed. Please choose the latest AMI that will have latest aws tools installed
+        - [Line#- 37]: - IAM application role which must be attached to the Ec2 on which application is deployed. Created in prerequisite step.
+        - [Line#- 42]: - Type of Ec2 Instance.
+        - [Line#- 47]: - S3 path to download binary package. **MUST BE EXACTLY SAME AS PATH WHERE jenkinsfile uploads the built binary in STEP 3**
+        - [Line#- 53]: - Version to deploy match with the version present in setup.py.
+     2. green/iac_usecase_2.tf - **BELOW PARAMETERS should be available in your REGION on line 2**
+        - [Line#- 7]: - Specify the AWS VPN id.
+        - [Line#- 13]: - CIDR IP block from where we want to access the application UI.
+        - [Line#- 19]: - Public subnet id.
+        - [Line#- 25]: - KEY Name for creating ec2 on which application will be deployed.
+        - [Line#- 31]: - AMI Name for creating ec2 on which application will be deployed. Please choose the latest AMI that will have latest aws tools installed
+        - [Line#- 37]: - IAM application role which must be attached to the Ec2 on which application is deployed. Created in prerequisite step.
+        - [Line#- 42]: - Type of Ec2 Instance.
+        - [Line#- 47]: - S3 path to download binary package. **MUST BE EXACTLY SAME AS PATH WHERE jenkinsfile uploads the built binary in STEP 3**
+        - [Line#- 53]: - Version to deploy match with the version present in setup.py.
+     3. Jenkinsfile 
+        - [line#- 2]: - S3 Bucket **For example: "s3://risingminervacodebase-rchaturvedi"**. **S3 bucket should be present in your region in LINE 2**
+        - [line#- 3]: - S3 path to upload the binary package. **For example "devops/app"** DO NOT END in a SLASH. **Should be present in your S3 bucket**
+        - [line#- 4]: - S3 path for Terraform create destroy plan. For example "devops/terraform" DO NOT END in a SLASH. **Should be present in your S3 bucket**
+     4. Setup.py
+        - [Line# -5]: - Version of the application.** IMPORTANT AS YOU WILL DEPLOY TWO DIFFERENT VERSIONS IN BLUE VS GREEN**
 ---------------------------------------
 
 Step 5. Step By Step Execution
@@ -111,8 +109,6 @@ Step 5. Step By Step Execution
  9. Test result trends is also available for each build.
               ![alt text](../../../images/TestResultTrend.png)              
            
- 
-
 ---------------------------------------
 
 Step 6. Notes/Additional instructions:
@@ -131,5 +127,4 @@ Step 6. Notes/Additional instructions:
        - Jenkinsfile - Line# 88, 89, 71, 72 
                 
         aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}/green/<version>/planfile .
-        terraform apply -auto-approve planfile      
-
+        terraform apply -auto-approve planfile
