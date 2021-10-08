@@ -97,7 +97,7 @@ Step 5. Step By Step Execution
                 - `refs/tags/${VERSION}`
             - Repository browser - Auto
              ![alt text](../../../images/SCM2.png)
-            - Make sure 
+            - Make sure **Lightweight checkout is CHECKED OFF**
  4. In the script path - Labs/usecases/usecase-2/Jenkinsfile 
              ![alt text](../../../images/JenkinsFile2.png)
  5. For additional behaviour plugins must be installed like "Github, Wipe repository". Detailed information is present in jenkis configuration slide.
