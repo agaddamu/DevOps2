@@ -94,9 +94,10 @@ Step 5. Step By Step Execution
             - Refspec (Specify to build tags) 
                 - `+refs/tags/*:refs/remotes/origin/tags/*`
             - Branches to build (TAG_VERSION variables will flow from jenkins pipeline parameter)
-                - `refs/tags/${TAG_VERSION}`
+                - `refs/tags/${VERSION}`
             - Repository browser - Auto
              ![alt text](../../../images/SCM2.png)
+            - Make sure 
  4. In the script path - Labs/usecases/usecase-2/Jenkinsfile 
              ![alt text](../../../images/JenkinsFile2.png)
  5. For additional behaviour plugins must be installed like "Github, Wipe repository". Detailed information is present in jenkis configuration slide.
