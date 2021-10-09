@@ -53,7 +53,7 @@ Step 4. Changes to Application files
      3. Jenkinsfile 
         - [line#- 2]: - S3 Bucket
         - [line#- 3]: - S3 path to upload the binary package. 
-          - **SHPOULD BE EXACTLY SAME AS LINE 37 OF iac_usecase_1.tf**
+          - **SHOULD BE EXACTLY SAME AS LINE 37 OF iac_usecase_1.tf**
         - [line#- 4]: - S3 path for Terraform create destroy plan.
 ---------------------------------------
 
@@ -82,7 +82,7 @@ Step 5. Step By Step Execution
             - Click Advanced
                 - Name - origin
                 - Refspec - `+refs/heads/*:refs/remotes/origin/*`
-            - Branches to build - */*
+            - Branches to build - **/**
             - Repository browser - Auto
              ![alt text](../../../images/SCM.png)
  4. In the script path - Labs/usecases/usecase-1/Jenkinsfile 
