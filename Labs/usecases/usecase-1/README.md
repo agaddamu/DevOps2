@@ -83,7 +83,7 @@ Step 5. Step By Step Execution
                 - Name - origin
                 - Refspec - `+refs/heads/*:refs/remotes/origin/*`
             - Branches to build        
-                    */*
+                    ***/***
             
             - Repository browser - Auto
              ![alt text](../../../images/SCM.png)
