@@ -43,7 +43,7 @@ Step 4. Changes to Application files
      1. provider.tf 
         - [line#- 2]: - AWS region for create resources.
      2. iac_usecase_1.tf 
-        - [line#- 3]: - Specify the AWS VPN id.
+        - [line#- 3]: - Specify the AWS VPC id.
         - [line#- 8]: - CIDR IP block from where we want to access the application UI.
         - [line#- 20]: - AMI Name for creating ec2 on which application will be deployed. Please choose the latest AMI that will have latest aws tools installed.
                          AMI should be available in the region provided in 'provider.tf'
