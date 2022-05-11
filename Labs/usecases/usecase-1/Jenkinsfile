@@ -64,8 +64,8 @@ pipeline {
       steps {
         sh """
               terraform -v
-              terraform init
               aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}planfile .
+              terraform init
               terraform apply -auto-approve planfile
            """
       }
