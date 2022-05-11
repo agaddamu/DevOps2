@@ -1,5 +1,12 @@
-provider "aws" {
-  region = "us-east-1"
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.5.0"
+      region = "us-east-1"
+    }
+  }
+  required_version = ">= 0.14.9"
 }
 
 variable "VPC" {
@@ -33,7 +40,7 @@ variable "AMI" {
 }
 
 resource "aws_iam_instance_profile" "rm_iam_profile" {
-  name = "rm_iam_profile"
+  name = "rm_iam_profile_green"
   role = "EC2JenkinsRole"
 }
 
@@ -44,7 +51,7 @@ variable "EC2_TYPE" {
 
 variable "S3_PATH" {
   type = string
-  default = "s3://risingminervacodebase-rchaturvedi/devops/app"
+  default = "s3://rm-binaries/devops/app/usecase2/green"
   description = "Version to be released"
 }
 
