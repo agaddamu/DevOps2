@@ -65,7 +65,7 @@ Resources:
           #!/bin/bash -xe
           sudo yum update –y
           sudo amazon-linux-extras install epel -y 
-          sudo yum install jenkins java-1.8.0-openjdk-devel -y
+          sudo amazon-linux-extras install java-openjdk11
           sudo yum install epel-release -y 
           sudo yum-config-manager --enable epel
           sudo yum install daemonize -y  
