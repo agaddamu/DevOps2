@@ -69,4 +69,11 @@ Step 3. Common error
  3. Unable to deliver the payload Jenkins URL was incorrect in the webhook
     - Make sure port is attached in the jenkins payload url 
     - Default jenkins port is 8282, But we have made change it to 8080 refer jenkins installation and configurations.
-    
+ 4. Git PullRequest job failed. Couldn't find any revision to build. Verify the repository and branch configuration for this job
+    - Navigate to Git section.
+    - Click "Advanced" to add 
+      - Name: origin
+      - Refspec: +refs/pull/*:refs/remotes/origin/pr/*
+      - Branches to build : leave blank
+   
+<img width="980" alt="image" src="https://user-images.githubusercontent.com/5316673/188640254-d138b935-31b0-4f8a-ab1d-8103f8f54fbc.png">
