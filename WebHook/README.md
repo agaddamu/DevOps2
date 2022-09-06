@@ -73,7 +73,7 @@ Step 3. Common error
     - Navigate to Git section.
     - Click "Advanced" to add 
       - Name: origin
-      - Refspec: +refs/pull/*:refs/remotes/origin/pr/*
+      - Refspec: "+refs/pull/*:refs/remotes/origin/pr/*"
       - Branches to build : leave blank
    
 <img width="980" alt="image" src="https://user-images.githubusercontent.com/5316673/188640254-d138b935-31b0-4f8a-ab1d-8103f8f54fbc.png">
