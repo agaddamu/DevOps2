@@ -143,9 +143,9 @@ resource "aws_instance" "app_server" {
                   sudo su -
                   sudo yum -y install pip
                   aws s3 cp "${var.S3_PATH}" . --recursive
-				  ls -lrt
+                  ls -lrt
                   mkdir myproject
-                  pip install *.whl
+                  cd usecase1
                   pip install *.whl -t /root/myproject
                   echo "export FLASK_APP=/root/myproject/Labs/usecases/usecase-1/my_application/application.py"  >> /etc/profile
                   source /etc/profile
