@@ -76,4 +76,5 @@ Step 3. Common error
       - Refspec: `+refs/heads/*:refs/remotes/origin/*`
       - Branches to build : leave blank
    
-<img width="980" alt="image" src="https://user-images.githubusercontent.com/5316673/188640254-d138b935-31b0-4f8a-ab1d-8103f8f54fbc.png">
+<img width="954" alt="image" src="https://user-images.githubusercontent.com/5316673/188906608-d4dac495-664d-4094-9a5d-2abd3f4a6d4f.png">
+
