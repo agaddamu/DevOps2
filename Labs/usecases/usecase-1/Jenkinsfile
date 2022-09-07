@@ -2,6 +2,7 @@
 def S3_BUCKET = "s3://rm-binaries"
 def S3_BINARY_PATH = "devops/app/usecase1/"
 def S3_TERRAFORM_PATH = "devops/terraform/usecase1/"
+def GIT_REPO = "https://github.com/Rising-Minerva/DevOps-FINAL.git"
 
 // Pipeline definition
 pipeline {
@@ -64,7 +65,8 @@ pipeline {
       steps {
         sh """
               terraform -v
-              cd Labs/usecases/usecase-1/terraform
+	      git clone ${GIT_REPO}	      
+              cd DevOps-FINAL/Labs/usecases/usecase-1/terraform
               terraform init
               aws s3 cp ${S3_BUCKET}/${S3_TERRAFORM_PATH}planfile .
               terraform apply -auto-approve planfile
